@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="rover_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Begin - Include -->
+  <xacro:include filename="$(find rover_arm_desc_pkg)/urdf/rover_arm_macro.xacro"/>
+  <!-- End - Include -->
+
+  <xacro:rover_arm without_rover="true"/>
+</robot>

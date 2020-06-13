@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- The planning and execution components of MoveIt! configured to
+       publish the current configuration of the robot (simulated or real)
+       and the current state of the world as seen by the planner.
+  -->
+  <!-- By default, we are not in debug mode -->
+  <arg name="debug" default="false" />
+  <arg name="namespace" default="rover_arm"/>
+
+  <group ns="$(arg namespace)">
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <param name="/use_gui" value="false"/>
+      <rosparam param="/source_list">
+        [$(arg namespace)/joint_states]
+      </rosparam>
+    </node>
+    
+    <include file="$(find rover_with_arm_moveit_config)/launch/move_group.launch">
+      <arg name="publish_monitored_planning_scene" value="true"/>
+    </include>
+
+    <!-- The visualization component of MoveIt! -->
+    <include file="$(find rover_with_arm_moveit_config)/launch/moveit_rviz.launch">
+      <arg name="rviz_config" value="$(find rover_with_arm_moveit_config)/launch/moveit.rviz"/>
+      <arg name="debug" value="$(arg debug)"/>
+    </include>
+  </group>
+</launch>

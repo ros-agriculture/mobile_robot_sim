@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<robot name="rover_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Begin - Include -->
+    <xacro:include filename="$(find rover_arm_resources_pkg)/urdf/links_joints.xacro"/>
+    <xacro:include filename="$(find rover_desc_pkg)/urdf/rover_parameters.xacro"/>
+    <xacro:include filename="$(find rover_desc_pkg)/urdf/steer.xacro"/>
+    <xacro:include filename="$(find rover_desc_pkg)/urdf/wheel.xacro"/>
+    <xacro:include filename="$(find rover_desc_pkg)/urdf/imu_urdf.xacro"/>
+    <!-- End - Include -->
+    <link name="gps"/>
+    <imu_sensor xyz="0.01 0 ${0.01 + 0.01}"
+                rpy="0 0 0"
+                parent="chassis_footprint">
+    </imu_sensor>
+
+    <joint name="gps_to_base_link" type="fixed">
+        <parent link="chassis_footprint"/>
+        <child link="gps"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Rover Macro -->
+    <xacro:macro name="rover_robot">
+        <!-- Begin - Robot Description -->
+        <!-- Chassis footprint -->
+        <xacro:m_link_box name="${r_link_00_name}"
+                          origin_rpy="0 0 0" origin_xyz="0 0 0"
+                          w="0.0001" d="0.0001" h="0.0001"/>
+
+        <gazebo reference="${r_link_00_name}">
+            <material>Gazebo/White</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+
+        <xacro:m_link_mesh_box name="${r_link_01_name}"
+                               origin_rpy="0 0 0"
+                               origin_xyz="0 0 ${wheel_radius + steer_z_origin_to_wheel_z_origin - chassis_z_origin_to_steer_z_origin}"
+                               m="${chassis_mass}"
+                               w="${chassis_width}"
+                               d="${chassis_length}"
+                               h="${chassis_height}"
+                               meshfile="package://rover_desc_pkg/meshes/rover_chassis.dae"
+                               meshscale="1 1 1"/>
+
+        <gazebo reference="${r_link_01_name}">
+            <material>Gazebo/Yellow</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+
+        <xacro:m_joint_fixed name="${r_link_00_name}__${r_link_01_name}"
+                             origin_rpy="0 0 0" origin_xyz="0 0 0"
+                             parent="${r_link_00_name}" child="${r_link_01_name}"/>
+
+        <!-- Steers & Wheels -->
+        <xacro:steer fr="front" lr="right" parent="${r_link_01_name}" type="revolute" translateX="1" translateY="-1"/>
+        <xacro:steer fr="front" lr="left" parent="${r_link_01_name}" type="revolute" translateX="1" translateY="1"/>
+        <xacro:steer fr="rear" lr="right" parent="${r_link_01_name}" type="fixed" translateX="-1" translateY="-1"/>
+        <xacro:steer fr="rear" lr="left" parent="${r_link_01_name}" type="fixed" translateX="-1" translateY="1"/>
+
+        <xacro:wheel fr="front" lr="right" parent="front_right_steer" translateX="1" translateY="-1"/>
+        <xacro:wheel fr="front" lr="left" parent="front_left_steer" translateX="1" translateY="1"/>
+        <xacro:wheel fr="rear" lr="right" parent="rear_right_steer" translateX="-1" translateY="-1"/>
+        <xacro:wheel fr="rear" lr="left" parent="rear_left_steer" translateX="-1" translateY="1"/>
+        <!-- End - Robot Description -->
+
+        <!-- Rover -->
+
+        <gazebo>
+
+            <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+                <robotNamespace>/rover</robotNamespace>
+            </plugin>
+            <!-- GPS plugin -->
+            <plugin name="robot_gps_sim" filename="libhector_gazebo_ros_gps.so">
+                <alwaysOn>true</alwaysOn>
+                <frameId>gps</frameId>
+                <updateRate>100.0</updateRate>
+                <bodyName>chassis_footprint</bodyName>
+                <topicName>gps</topicName>
+                <velocityTopicName>gps_velocity</velocityTopicName>
+                <drift>0.5 0.5 0.5</drift>
+                <gaussianNoise>0.1 0.1 0.1</gaussianNoise>
+                <velocityDrift>0 0 0</velocityDrift>
+                <velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
+            </plugin>
+
+            <!-- Groundtruth plugin -->
+            <plugin name="robot_groundtruth_sim" filename="libgazebo_ros_p3d.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>10.0</updateRate>
+                <bodyName>chassis_footprint</bodyName>
+                <topicName>groundtruth</topicName>
+                <gaussianNoise>0.0</gaussianNoise>
+                <frameName>map</frameName>
+                <xyzOffsets>0 0 0</xyzOffsets>
+                <rpyOffsets>0 0 0</rpyOffsets>
+            </plugin>
+
+        </gazebo>
+    </xacro:macro>
+</robot>

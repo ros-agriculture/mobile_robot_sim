@@ -1,0 +1,56 @@
+<launch>
+   
+    <!-- -->
+    <param name="/use_sim_time" value="true"/>
+    <arg name="map_file" default="$(find rover_gazebo_control)/maps/mymap_empty.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+        <rosparam command="load" file="$(find rover_gazebo_control)/config/ekf_localization.yaml"/>
+    </node>
+
+    <rosparam command="load" file="$(find rover_gazebo_control)/config/ekf2.yaml"/>
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_map" clear_params="true">
+        <remap from="odometry/filtered" to="odometry/filtered_map"/>
+    </node>
+
+    <rosparam command="load" file="$(find rover_gazebo_control)/config/navsat.yaml"/>
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" clear_params="true"
+          output="screen">
+         <rosparam param="datum">[49.900000, 8.900000, 0.0]</rosparam>
+        <remap from="odometry/filtered" to="odometry/filtered_map"/>
+        <remap from="gps/fix" to="/gps"/>
+        <remap from="imu/data" to="/imu_data"/>
+    </node>
+
+    <!-- Run the EKF Localization node -->
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base"> <!--output="screen"-->
+
+        <rosparam file="$(find rover_gazebo_control)/config/costmap_common_params.yaml" command="load"
+                  ns="global_costmap"/>
+        <rosparam file="$(find rover_gazebo_control)/config/costmap_common_params.yaml" command="load"
+                  ns="local_costmap"/>
+        <rosparam file="$(find rover_gazebo_control)/config/local_costmap_params.yaml" command="load"/>
+        <rosparam file="$(find rover_gazebo_control)/config/global_costmap_params.yaml" command="load"/>
+        <rosparam file="$(find rover_gazebo_control)/config/base_local_planner_params.yaml" command="load"/>
+        <rosparam file="$(find rover_gazebo_control)/config/dwa_local_planner.yaml" command="load"/>
+        <rosparam file="$(find rover_gazebo_control)/config/TebLocalPlannerROS.yaml" command="load"/>
+        <rosparam file="$(find rover_gazebo_control)/config/move_base_params.yaml" command="load"/>
+
+        <param name="base_global_planner" type="string" value="navfn/NavfnROS"/>
+        <!--        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>-->
+        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
+        <!--        <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>-->
+        <param name="controller_frequency" value="10.0"/>
+        <param name="controller_patience" value="15.0"/>
+        <remap from="odom" to="odometry/filtered_map"/>
+        <remap from="map" to="map"/>
+        <remap from="cmd_vel" to="cmd_vel"/>
+
+
+    </node>
+
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find rover_gazebo_control)/rover_config.rviz"/>
+
+</launch>

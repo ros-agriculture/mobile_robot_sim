@@ -1,0 +1,20 @@
+<launch>
+    <arg name="model"/>
+    <param name="/use_sim_time" value="true"/>
+
+    <!-- Parsing xacro and setting wheel description parameter -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find rover_desc_pkg)/urdf/rover_robot.xacro"/>
+
+    <!-- Setting gui parameter to true to display joint slider -->
+    <param name="use_gui" value="true"/>
+
+    <!-- Starting Joint state publisher node which will publish the joint values -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+    <!-- Starting Robot state publisher which will publish tf -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <!-- Launch visualization in rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rover_desc_pkg)/urdf.rviz" required="true"/>
+
+</launch>

@@ -1,0 +1,25 @@
+<launch>
+    <!--  -->
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <param name="/use_sim_time" value="true"/>
+
+
+    <!-- We resume the logic in empty world.launch -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" default="$(arg paused)"/>
+        <arg name="use_sim_time" default="$(arg use_sim_time)"/>
+        <arg name="gui" default="$(arg gui)"/>
+        <arg name="headless" default="$(arg headless)"/>
+        <arg name="debug" default="$(arg debug)"/>
+    </include>
+
+    <param name="robot_description" command="$(find xacro)/xacro '$(find rover_desc_pkg)/urdf/rover_robot.xacro'"/>
+
+    <!-- Run a python script to send a service call to gazebo_ros to spawn a urdf robot -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false"
+          output="screen" args="-urdf -model rover_robot -param robot_description"/>
+</launch>

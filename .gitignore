@@ -1,0 +1,7 @@
+#directories
+*/include
+
+#files
+*.pyc
+*.idea
+*.vscode

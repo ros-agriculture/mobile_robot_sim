@@ -1,0 +1,36 @@
+# rover_joint_ctrlr_params.yaml
+#
+# This file defines joint controller parameter values used for simulating a
+# 4 wheeled rover.
+#
+#
+# Publish the joint states to joint_states.
+rover_joint_state_ctrlr:
+  type: joint_state_controller/JointStateController
+  publish_rate: 100
+
+front_right_steering_ctrlr:
+  joint: chassis_link__front_right_steer
+  type: effort_controllers/JointPositionController
+  pid: {p: 200.0, i: 0.01, d: 1.0}
+front_left_steering_ctrlr:
+  joint: chassis_link__front_left_steer
+  type: effort_controllers/JointPositionController
+  pid: {p: 200.0, i: 0.01, d: 1.0}
+
+front_right_wheel_ctrlr:
+  joint: front_right_steer__front_right_wheel
+  type: effort_controllers/JointVelocityController
+  pid: {p: 2.5, i: 0.0, d: 0.0, i_clamp: 10.0}
+front_left_wheel_ctrlr:
+  joint: front_left_steer__front_left_wheel
+  type: effort_controllers/JointVelocityController
+  pid: {p: 2.5, i: 0.0, d: 0.0, i_clamp: 10.0}
+rear_right_wheel_ctrlr:
+  joint: rear_right_steer__rear_right_wheel
+  type: effort_controllers/JointVelocityController
+  pid: {p: 2.5, i: 0.0, d: 0.0, i_clamp: 10.0}
+rear_left_wheel_ctrlr:
+  joint: rear_left_steer__rear_left_wheel
+  type: effort_controllers/JointVelocityController
+  pid: {p: 2.5, i: 0.0, d: 0.0, i_clamp: 10.0}

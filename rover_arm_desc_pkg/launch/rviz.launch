@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!-- rviz.launch
+Launch RViz in the "arm" namespace.
+
+Arguments:
+  namespace(string, default: arm)
+    arm namespace.
+-->
+
+<launch>
+  <arg name="namespace" default="arm"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rover_arm_desc_pkg)/urdf.rviz"
+        ns="$(arg namespace)" required="true"/>
+</launch>

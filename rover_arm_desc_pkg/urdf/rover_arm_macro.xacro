@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<robot name="rover_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Begin - Include -->
+  <xacro:include filename="$(find rover_arm_desc_pkg)/urdf/arm_parameters.xacro"/>
+  <xacro:include filename="$(find rover_arm_desc_pkg)/urdf/arm_links.xacro"/>
+  <xacro:include filename="$(find rover_desc_pkg)/urdf/rover_parameters.xacro"/>
+  <xacro:include filename="$(find rover_arm_resources_pkg)/urdf/links_joints.xacro"/>
+  <!-- End - Include -->
+
+  <!-- Rover Arm Macro -->
+  <xacro:macro name="rover_arm" params="without_rover">
+    <!-- Begin - Robot Description -->
+    <!-- Arm footprint -->
+    <xacro:m_link_box name="${a_link_00_name}"
+                      origin_rpy="0 0 0" origin_xyz="0 0 0"
+                      w="0.0001" d="0.0001" h="0.0001"/>
+
+    <gazebo reference="${a_link_00_name}">
+      <material>Gazebo/White</material>
+    </gazebo>
+
+    <!-- Arm Links -->
+    <!-- Base Link -->
+    <xacro:m_link_cylinder_inertia name="${a_link_0a_name}"
+                                   origin_rpy="0 0 0"
+                                   origin_xyz="0 0 0"
+                                   m="0.010"
+                                   r="${arm_foot_cyl_radius}"
+                                   l="${arm_foot_cyl_height}"/>
+
+    <gazebo reference="${a_link_0a_name}">
+      <material>Gazebo/Black</material>
+    </gazebo>
+
+    <xacro:m_joint_fixed name="${a_link_00_name}__${a_link_0a_name}_joint"
+                         origin_rpy="0 0 0"
+                         origin_xyz="${world_x_origin_to_arm_x_origin}
+                                     ${world_y_origin_to_arm_y_origin}
+                                     ${world_z_origin_to_arm_z_origin}"
+                         parent="${a_link_00_name}" child="${a_link_0a_name}"/>
+
+    <!-- Link 01 -->
+    <xacro:arm_link name="${a_link_01_name}"
+                    type="mesh"
+                    parent="${a_link_0a_name}"
+                    x_dim="${arm_link01_x}"
+                    y_dim="${arm_link01_y}"
+                    z_dim="${arm_link01_z}"
+                    link_xyz="${arm_link01_x_trans}
+                              ${arm_link01_y_trans}
+                              ${arm_link01_z_trans}"
+                    link_rpy="0 0 0"
+                    m="${arm_link01_m}"
+                    file="package://rover_arm_desc_pkg/meshes/link1.dae"
+                    scale="1.0 1.0 1.0"
+                    joint_xyz="0 0 0"
+                    joint_rpy="0 0 0"
+                    axis_xyz="0 0 1"
+                    axis_rpy="0 0 0"
+                    lim_l="-${M_PI/2}"
+                    lim_u="${30*M_PI/157}"
+                    d="2.0"
+                    f="1.0"/>
+
+    <!-- Link 02 -->
+    <xacro:arm_link name="${a_link_02_name}"
+                    type="mesh"
+                    parent="${a_link_01_name}"
+                    x_dim="${arm_link02_x}"
+                    y_dim="${arm_link02_y}"
+                    z_dim="${arm_link02_z}"
+                    link_xyz="${arm_link02_x_trans}
+                              ${arm_link02_y_trans}
+                              ${arm_link02_z_trans}"
+                    link_rpy="${M_PI/2} 0 0"
+                    m="${arm_link02_m}"
+                    file="package://rover_arm_desc_pkg/meshes/link2vb.dae"
+                    scale="1.0 1.0 1.0"
+                    joint_xyz="${link01_link02_x}
+                               ${link01_link02_y}
+                               ${link01_link02_z}"
+                    joint_rpy="0 0 0"
+                    axis_xyz="0 0 1"
+                    axis_rpy="0 0 0"
+                    lim_l="-${M_PI/2}"
+                    lim_u="${M_PI/2}"
+                    d="0.1"
+                    f="0.1"/>
+
+    <!-- Link 03 -->
+    <xacro:arm_link name="${a_link_03_name}"
+                    type="mesh"
+                    parent="${a_link_02_name}"
+                    x_dim="${arm_link03_x}"
+                    y_dim="${arm_link03_y}"
+                    z_dim="${arm_link03_z}"
+                    link_xyz="${arm_link03_x_trans}
+                              ${arm_link03_y_trans}
+                              ${arm_link03_z_trans}"
+                    link_rpy="${-M_PI/2} 0 0"
+                    m="${arm_link03_m}"
+                    file="package://rover_arm_desc_pkg/meshes/link3.dae"
+                    scale="1.0 1.0 1.0"
+                    joint_xyz="${link02_link03_x}
+                               ${link02_link03_y}
+                               ${link02_link03_z}"
+                    joint_rpy="0 0 0"
+                    axis_xyz="0 1 0"
+                    axis_rpy="0 0 0"
+                    lim_l="${-125*M_PI/314}"
+                    lim_u="${25*M_PI/157}"
+                    d="1.50"
+                    f="0.75"/>
+
+    <!-- Link 03a -->
+    <xacro:arm_link name="${a_link_03a_name}"
+                    type="box_iner"
+                    parent="${a_link_03_name}"
+                    x_dim="${arm_link03a_x}"
+                    y_dim="${arm_link03a_y}"
+                    z_dim="${arm_link03a_z}"
+                    link_xyz="${arm_link03a_x_trans}
+                              ${arm_link03a_y_trans}
+                              ${arm_link03a_z_trans}"
+                    link_rpy="0 0 0"
+                    m="${arm_link03a_m}"
+                    file="package://rover_arm_desc_pkg/meshes/link3.dae"
+                    scale="1.0 1.0 1.0"
+                    joint_xyz="${link03_link03a_x}
+                               ${link03_link03a_y}
+                               ${link03_link03a_z}"
+                    joint_rpy="0 0 0"
+                    axis_xyz="0 1 0"
+                    axis_rpy="0 0 0"
+                    lim_l="${-125*M_PI/314}"
+                    lim_u="${25*M_PI/157}"
+                    d="1.0"
+                    f="0.5"/>
+
+    <!-- Link 04 -->
+    <xacro:arm_link name="${a_link_04_name}"
+                    type="mesh"
+                    parent="${a_link_03a_name}"
+                    x_dim="${arm_link04_x}"
+                    y_dim="${arm_link04_y}"
+                    z_dim="${arm_link04_z}"
+                    link_xyz="${arm_link04_x_trans}
+                              ${arm_link04_y_trans}
+                              ${arm_link04_z_trans}"
+                    link_rpy="0 ${135*M_PI/157} 0"
+                    m="${arm_link03a_m}"
+                    file="package://rover_arm_desc_pkg/meshes/link4vb.dae"
+                    scale="1.0 1.0 1.0"
+                    joint_xyz="${link03a_link04_x}
+                               ${link03a_link04_y}
+                               ${link03a_link04_z}"
+                    joint_rpy="0 0 0"
+                    axis_xyz="0 1 0"
+                    axis_rpy="0 0 0"
+                    lim_l="${-100*M_PI/157}"
+                    lim_u="${25*M_PI/157}"
+                    d="0.25"
+                    f="0.05"/>
+
+    <!-- Arm -->
+    <xacro:if value="${without_rover}">
+      <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+      </gazebo>
+    </xacro:if>
+  </xacro:macro>
+</robot>

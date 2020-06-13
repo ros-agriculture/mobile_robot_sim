@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find rover_arm_resources_pkg)/urdf/common_colors.xacro"/>
+
+  <xacro:macro name="material_red">
+    <material name="">
+      <color rgba="${col_red}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_green">
+    <material name="">
+      <color rgba="${col_green}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_blue">
+    <material name="">
+      <color rgba="${col_blue}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_black">
+    <material name="">
+      <color rgba="${col_black}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_white">
+    <material name="">
+      <color rgba="${col_white}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_gray">
+    <material name="">
+      <color rgba="${col_gray}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_darkgray">
+    <material name="">
+      <color rgba="${col_darkgray}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_yellow">
+    <material name="">
+      <color rgba="${col_yellow}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_clay_brown">
+    <material name="">
+      <color rgba="${col_clay_brown}"/>
+    </material>
+  </xacro:macro>
+</robot>

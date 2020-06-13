@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<robot name="steer" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Begin - Include -->
+  <xacro:include filename="$(find rover_desc_pkg)/urdf/rover_parameters.xacro"/>
+  <xacro:include filename="$(find rover_arm_resources_pkg)/urdf/links_joints.xacro"/>
+  <xacro:include filename="$(find rover_arm_resources_pkg)/urdf/common_constants.xacro"/>
+  <!-- End - Include -->
+
+  <xacro:macro name="steer" params="fr lr parent type translateX translateY"> <!-- fr: front, rear; lr: left, right -->
+    <!-- Compute steer position based on its location -->
+    <xacro:property name="steer_x" value="${translateX * world_x_origin_to_steer_x_origin}" scope="local"/>
+    <xacro:property name="steer_y" value="${translateY * world_y_origin_to_steer_y_origin}" scope="local"/>
+    <xacro:property name="steer_z" value="${wheel_radius + steer_z_origin_to_wheel_z_origin}" scope="local"/>
+
+    <xacro:if value="${fr == 'front'}">
+      <xacro:property name="steer_x"
+                      value="${translateX * (world_x_origin_to_steer_x_origin + 0.063)}" scope="local"/>
+    </xacro:if>
+
+    <!-- Decide steer mesh file based on its location -->
+    <xacro:if value="${lr == 'right'}">
+      <xacro:property name="mesh_file" value="package://rover_desc_pkg/meshes/rover_steer_r.dae"/>
+      <xacro:property name="steer_z"
+                      value="${wheel_radius + steer_z_origin_to_wheel_z_origin + 0.0032}" scope="local"/>
+    </xacro:if>
+    <xacro:if value="${lr == 'left'}">
+      <xacro:property name="mesh_file" value="package://rover_desc_pkg/meshes/rover_steer_l.dae"/>
+      <!-- <xacro:property name="steer_z"
+                           value="${wheel_radius + steer_z_origin_to_wheel_z_origin}"
+                           scope="local"/> -->
+    </xacro:if>
+
+    <!-- Link description -->
+    <xacro:m_link_mesh_box name="${fr}_${lr}_steer"
+                           origin_rpy="0 0 0"
+                           origin_xyz="0 0 0"
+                           m="${steer_mass}"
+                           w="${steer_width}"
+                           d="${steer_length}"
+                           h="${steer_height}"
+                           meshfile="${mesh_file}"
+                           meshscale="1 1 1"/>
+
+    <gazebo reference="${fr}_${lr}_steer">
+      <material>Gazebo/Grey</material>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <!-- Joint description -->
+    <xacro:if value="${type == 'fixed'}">
+      <xacro:m_joint_fixed name="${parent}__${fr}_${lr}_steer"
+                           origin_rpy="0 0 0" origin_xyz="${steer_x} ${steer_y} ${steer_z}"
+                           parent="${parent}" child="${fr}_${lr}_steer"/>
+    </xacro:if>
+    <xacro:if value="${type == 'revolute'}">
+      <xacro:m_joint_rev name="${parent}__${fr}_${lr}_steer"
+                         axis_xyz="0 0 1"
+                         axis_rpy="0 0 0"
+                         origin_rpy="0 0 0" origin_xyz="${steer_x} ${steer_y} ${steer_z}"
+                         parent="${parent}" child="${fr}_${lr}_steer"
+                         limit_e="1000" limit_l="-${5*M_PI/12}"
+                         limit_u="${5*M_PI/12}" limit_v="100" 
+                         damp="25.0" fric="10.0"/>
+    </xacro:if>
+     <xacro:if value="${type == 'continuous'}">
+      <xacro:m_joint_cont name="${parent}__${fr}_${lr}_wheel"
+                        axis_xyz="0 1 0"
+                        origin_rpy="0 0 0"
+                        origin_xyz="${steer_x_origin_to_wheel_x_origin}
+                                    ${steer_y_origin_to_wheel_y_origin}
+                                    ${-steer_z_origin_to_wheel_z_origin}"
+                        parent="${parent}" child="${fr}_${lr}_wheel"
+                        limit_e="1000" limit_v="25"
+                        damp="10.0" fric="1.0"/>
+    </xacro:if>
+      </xacro:macro>
+ </robot>

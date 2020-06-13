@@ -1,0 +1,8 @@
+global_costmap:
+  global_frame: odom
+  robot_base_frame: chassis_footprint
+  update_frequency: 5
+  publish_frequency: 3
+  width: 200
+  height: 200
+  rolling_window: true

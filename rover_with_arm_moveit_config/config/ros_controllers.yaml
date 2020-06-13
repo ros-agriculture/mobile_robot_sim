@@ -1,0 +1,105 @@
+# MoveIt-specific simulation settings
+moveit_sim_hw_interface:
+  joint_model_group: controllers_initial_group_
+  joint_model_group_pose: controllers_initial_pose_
+# Settings for ros_control control loop
+generic_hw_control_loop:
+  loop_hz: 300
+  cycle_time_error_threshold: 0.01
+# Settings for ros_control hardware interface
+hardware_interface:
+  joints:
+    - arm_foot_cyl__arm_link_01_joint
+    - arm_link_01__arm_link_02_joint
+    - arm_link_02__arm_link_03_joint
+    - arm_link_03__arm_link_03a_joint
+    - arm_link_03a__arm_link_04_joint
+    - chassis_link__front_left_steer
+    - chassis_link__front_right_steer
+    - front_left_steer__front_left_wheel
+    - front_right_steer__front_right_wheel
+    - rear_left_steer__rear_left_wheel
+    - rear_right_steer__rear_right_wheel
+  sim_control_mode: 1  # 0: position, 1: velocity
+# Publish all joint states
+# Creates the /joint_states topic necessary in ROS
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+controller_list:
+  []
+arm_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - arm_foot_cyl__arm_link_01_joint
+    - arm_link_01__arm_link_02_joint
+    - arm_link_02__arm_link_03_joint
+    - arm_link_03__arm_link_03a_joint
+    - arm_link_03a__arm_link_04_joint
+  gains:
+    arm_foot_cyl__arm_link_01_joint:
+      p: 8.50
+      d: 0.01
+      i: 0.00
+      i_clamp: 0.0
+    arm_link_01__arm_link_02_joint:
+      p: 8.50
+      d: 0.01
+      i: 0.00
+      i_clamp: 0.0
+    arm_link_02__arm_link_03_joint:
+      p: 8.50
+      d: 0.01
+      i: 0.00
+      i_clamp: 0.0
+    arm_link_03__arm_link_03a_joint:
+      p: 8.50
+      d: 0.01
+      i: 0.00
+      i_clamp: 0.0
+    arm_link_03a__arm_link_04_joint:
+      p: 8.50
+      d: 0.01
+      i: 0.00
+      i_clamp: 0.0
+rover_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - chassis_link__front_left_steer
+    - chassis_link__front_right_steer
+    - front_left_steer__front_left_wheel
+    - front_right_steer__front_right_wheel
+    - rear_left_steer__rear_left_wheel
+    - rear_right_steer__rear_right_wheel
+  gains:
+    chassis_link__front_left_steer:
+      p: 200.0
+      d: 0.01
+      i: 1.0
+      i_clamp: 0.0
+    chassis_link__front_right_steer:
+      p: 200.0
+      d: 0.01
+      i: 1.0
+      i_clamp: 0.0
+    front_left_steer__front_left_wheel:
+      p: 2.5
+      d: 0.0
+      i: 0.0
+      i_clamp: 10.0
+    front_right_steer__front_right_wheel:
+      p: 2.5
+      d: 0.0
+      i: 0.0
+      i_clamp: 10.0
+    rear_left_steer__rear_left_wheel:
+      p: 2.5
+      d: 0.0
+      i: 0.0
+      i_clamp: 10.0
+    rear_right_steer__rear_right_wheel:
+      p: 2.5
+      d: 0.0
+      i: 0.0
+      i_clamp: 10.0

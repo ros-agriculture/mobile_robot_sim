@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <param name="/use_sim_time" value="true"/>
+    <!-- load parameters -->
+    <rosparam file="$(find rover_desc_pkg)/config/ackermann_teleop_param.yaml" command="load"/>
+    <node name="cmd_vel_to_ackermann" pkg="rover_desc_pkg" type="cmd_vel_to_ackermann" output="screen" required="true"/>
+    <node name="odometry" pkg="rover_desc_pkg" type="odometry.py" output="screen" required="true"/>
+    <node name="ackermann_gazebo_driver" pkg="rover_desc_pkg" type="ackermann_gazebo_driver" output="screen"
+          required="true"/>
+
+</launch>
+

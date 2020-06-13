@@ -1,0 +1,5 @@
+<launch>
+    <param name="/use_sim_time" value="true"/>
+    <arg name="map_file" default="$(find rover_gazebo_control)/maps/mymap_empty.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+</launch>

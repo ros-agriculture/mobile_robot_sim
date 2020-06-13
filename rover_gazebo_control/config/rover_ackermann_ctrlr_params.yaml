@@ -1,0 +1,27 @@
+# rover_ackermann_ctrlr_params.yaml
+#
+# This file defines ackermann_controller parameter values used for simulating a
+# 4 wheeled rover.
+#
+#
+front_left_wheel:
+  steering_link_name: front_left_steer
+  steering_ctrlr_name: front_left_steering_ctrlr
+  wheel_ctrlr_name: front_left_wheel_ctrlr
+  diameter: 0.356
+
+front_right_wheel:
+  steering_link_name: front_right_steer
+  steering_ctrlr_name: front_right_steering_ctrlr
+  wheel_ctrlr_name: front_right_wheel_ctrlr
+  diameter: 0.356
+
+rear_left_wheel:
+  link_name: rear_left_wheel
+  wheel_ctrlr_name: rear_left_wheel_ctrlr
+  diameter: 0.356
+
+rear_right_wheel:
+  link_name: rear_right_wheel
+  wheel_ctrlr_name: rear_right_wheel_ctrlr
+  diameter: 0.356

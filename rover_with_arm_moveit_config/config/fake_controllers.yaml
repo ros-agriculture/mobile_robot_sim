@@ -1,0 +1,8 @@
+controller_list:
+  - name: fake_arm_controller
+    joints:
+      - arm_foot_cyl__arm_link_01_joint
+      - arm_link_01__arm_link_02_joint
+      - arm_link_02__arm_link_03_joint
+      - arm_link_03__arm_link_03a_joint
+      - arm_link_03a__arm_link_04_joint

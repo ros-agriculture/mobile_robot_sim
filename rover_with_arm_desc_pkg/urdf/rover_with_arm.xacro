@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot name="rover_with_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Begin - Include macros of rover and the arm -->
+  <xacro:include filename="$(find rover_desc_pkg)/urdf/rover_robot_macro.xacro"/>
+  <xacro:include filename="$(find rover_arm_desc_pkg)/urdf/rover_arm_macro.xacro"/>
+  <!-- End - Include -->
+
+  <!-- Create the rover + arm combo itself as a macro -->
+  <!-- Instantiate rover and arm models -->
+  <xacro:rover_robot/>
+  <xacro:rover_arm without_rover="false"/>
+
+  <!-- Attach the arm to the rover -->
+  <!-- Note: This assumes that the 'arm' macro defines a 'footprint'
+     link which is the start of it's kinemtic chain (if any)-->
+  <joint name="chassis_footprint__arm_footprint_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="chassis_footprint" />
+    <child link="arm_footprint" />
+  </joint>
+</robot>
