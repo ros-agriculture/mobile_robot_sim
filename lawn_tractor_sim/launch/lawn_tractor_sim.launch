@@ -3,12 +3,6 @@
 <!-- ************** Global Parameters *************** -->
 <param name="/use_sim_time" value="true"/>
 
-<!-- ************** Stage Simulator ***************   -->
-<node pkg="stage_ros" type="stageros" name="stageros"
-	 args="-g runs headless $(find lawn_tractor_sim)/stage/farm.world">
-	 <remap from="base_scan" to="scan"/>
-</node>
-
 
 <!-- ************** Robot Description *************** -->
     <!-- robot_description is used by nodes that publish to joint_states. -->
