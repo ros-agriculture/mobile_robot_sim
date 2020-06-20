@@ -21,7 +21,6 @@
   <build_depend>nav_core</build_depend>
   <build_depend>mbf_costmap_core</build_depend>
   <build_depend>mbf_msgs</build_depend>
-  <build_depend>geonav_transform</build_depend>
   <build_depend>cmake_modules</build_depend>
   <build_depend>teb_local_planner</build_depend>
   <build_depend>smach</build_depend>
@@ -32,7 +31,6 @@
   <build_depend>mbf_abstract_nav</build_depend>
   <build_depend>mbf_abstract_core</build_depend>
   <build_depend>mbf_msgs</build_depend>
-  <exec_depend>geonav_transform</exec_depend>
   <exec_depend>teb_local_planner</exec_depend>
   <exec_depend>mbf_costmap_core</exec_depend>
   <exec_depend>global_planner</exec_depend>
