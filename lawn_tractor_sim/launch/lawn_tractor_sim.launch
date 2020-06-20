@@ -46,8 +46,11 @@
 
 <!-- ****** Fake localization for map and gps ***** -->
 <node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0.0 0.0 0.0 0 0 0.0 /map /odom 100"/>
+<node pkg="tf" type="static transform_publisher" name="odom_to_base_link" args="0.0 0.0 0 0.0 /odom /base_link 100" />
+<node pkg="tf" type="static transform_publisher" name="base_link_to_chassis_footprint" args="0.0 0.0 0 0.0 /base_link /chassis_footprint 100" />
 <node pkg="tf" type="static_transform_publisher" name="map_to_utm" args="0.0 0.0 0.0 0 0 0.0 /map /utm 100"/>
 <node pkg="lawn_tractor_sim" type="odom_to_lla.py" name="odom_to_lla" output="screen"/>
+
 
 <!-- ****** RVIZ ***** -->
 <node name="tractor_viz" pkg="rviz" type="rviz" output="screen"
