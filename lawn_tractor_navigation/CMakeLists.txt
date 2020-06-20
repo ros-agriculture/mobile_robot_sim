@@ -11,8 +11,6 @@ set(ROS_DEPENDENCIES
     roscpp std_msgs geometry_msgs
     behaviortree_cpp_v3
     actionlib_msgs
-    mbf_msgs
-    geonav_transform
     actionlib
     message_generation)
 
