@@ -33,7 +33,7 @@ RUN sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` m
 RUN wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 RUN sudo apt-get update
 RUN sudo apt-get install ros-`rosversion -d`-ompl #not sure why we have to do this manually
-
+RUN sudo apt-get install ros-`rosversion -d`-mbf-msgs
 RUN rosdep update && \
     rosdep install -y --from-paths . --ignore-src --rosdistro ${ROS_DISTRO} --as-root=apt:false && \
     apt-get -qq upgrade
@@ -45,4 +45,5 @@ ENV PYTHONIOENCODING UTF-8
 
 RUN source /ros_entrypoint.sh && \
     catkin build --no-status
+RUN sudo apt-get install ros-`rosversion -d`-behaviortree-cpp-v3
 
