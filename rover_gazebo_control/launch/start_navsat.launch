@@ -24,33 +24,34 @@
     </node>
 
     <!-- Run the EKF Localization node -->
-
-    <node pkg="move_base" type="move_base" respawn="false" name="move_base"> <!--output="screen"-->
-
-        <rosparam file="$(find rover_gazebo_control)/config/costmap_common_params.yaml" command="load"
-                  ns="global_costmap"/>
-        <rosparam file="$(find rover_gazebo_control)/config/costmap_common_params.yaml" command="load"
-                  ns="local_costmap"/>
-        <rosparam file="$(find rover_gazebo_control)/config/local_costmap_params.yaml" command="load"/>
-        <rosparam file="$(find rover_gazebo_control)/config/global_costmap_params.yaml" command="load"/>
-        <rosparam file="$(find rover_gazebo_control)/config/base_local_planner_params.yaml" command="load"/>
-        <rosparam file="$(find rover_gazebo_control)/config/dwa_local_planner.yaml" command="load"/>
-        <rosparam file="$(find rover_gazebo_control)/config/TebLocalPlannerROS.yaml" command="load"/>
-        <rosparam file="$(find rover_gazebo_control)/config/move_base_params.yaml" command="load"/>
-
-        <param name="base_global_planner" type="string" value="navfn/NavfnROS"/>
-        <!--        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>-->
-        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
-        <!--        <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>-->
-        <param name="controller_frequency" value="10.0"/>
-        <param name="controller_patience" value="15.0"/>
-        <remap from="odom" to="odometry/filtered_map"/>
-        <remap from="map" to="map"/>
-        <remap from="cmd_vel" to="cmd_vel"/>
-
-
+<!-- ****** Move Base Flex ***** -->
+  <node pkg="mbf_costmap_nav" type="mbf_costmap_nav" respawn="false" name="move_base_flex" output="screen">
+    <param name="tf_timeout" value="1.5"/>
+    <param name="planner_max_retries" value="3"/>
+    <rosparam file="$(find rover_gazebo_control)/config/planners.yaml" command="load" />
+    <rosparam file="$(find rover_gazebo_control)/config/controllers.yaml" command="load" />
+    <rosparam file="$(find rover_gazebo_control)/config/recovery_behaviors.yaml" command="load" />
+    <rosparam file="$(find rover_gazebo_control)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find rover_gazebo_control)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find rover_gazebo_control)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find rover_gazebo_control)/config/local_costmap_params.yaml" command="load" />
+  	<rosparam file="$(find rover_gazebo_control)/config/teb_local_planner_params_carlike.yaml"
+		 command="load" />
+    <param name="base_global_planner" type="string" value="navfn/NavfnROS"/>
+    <!--        <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>-->
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
+    <!--        <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>-->
+    <param name="controller_frequency" value="10.0"/>
+    <param name="controller_patience" value="15.0"/>
+    <remap from="odom" to="odometry/filtered_map"/>
+    <remap from="map" to="map"/>
+    <remap from="cmd_vel" to="cmd_vel"/>
     </node>
+      <!--The below is the old SMACH based code, leaving commented code here temporarily-->
+    <!-- <node pkg="lawn_tractor_navigation" name="mbf_state_machine" type="mbf_state_machine.py" respawn="false" output="screen"/> -->
+    <node pkg="lawn_tractor_navigation" name="mbf_behavior_tree" type="movebaseflex_bt_node" respawn="false" output="screen" /> 
 
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_chassis_link" args="0.0 0.0 0.0 0 0 0.0 /chassis_link /base_link 100" />
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find rover_gazebo_control)/rover_config.rviz"/>
 
 </launch>
