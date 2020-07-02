@@ -1,6 +1,6 @@
 #directories
-
-
+.catkin-tools/*
+*.ycm
 #files
 *.pyc
 *.idea
