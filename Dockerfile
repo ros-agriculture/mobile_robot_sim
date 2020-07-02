@@ -46,3 +46,26 @@ RUN source /ros_entrypoint.sh && \
     catkin build --no-status
 RUN sudo apt-get install ros-`rosversion -d`-behaviortree-cpp-v3
 
+#Install Groot
+RUN apt-get install -y \
+  ca-certificates \
+  build-essential \
+  qtbase5-dev \
+  libqt5svg5-dev \
+  libzmq3-dev \
+  libdw-dev \
+  libgl1-mesa-glx \
+  mesa-utils \
+  git \
+  cmake
+
+RUN git clone https://github.com/BehaviorTree/Groot.git && \
+      cd Groot && \
+      git submodule update --init --recursive && \
+      mkdir build; cd build && \
+      cmake .. && \
+      make && \
+      mkdir ~/bin && cp Groot ~/bin
+
+WORKDIR $CATKIN_WS 
+RUN echo 'source devel/setup.bash' >> ~/.bashrc
