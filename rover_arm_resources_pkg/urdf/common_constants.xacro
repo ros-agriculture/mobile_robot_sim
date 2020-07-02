@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<robot xmlns:xacro="http://wiki.ros.org/xacro">
-
-  <!-- All the units are in m-kg-s-radians unit system -->
-  <xacro:property name="M_PI" value="3.141592653"/>
-  <xacro:property name="DEG_TO_RAD" value="0.017453293"/>
-
-</robot>

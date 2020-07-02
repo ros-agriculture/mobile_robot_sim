@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!--
+Launch nodes used by both RViz and Gazebo when visualizing a vehicle with
+Ackermann steering.
+-->
+
+<launch>
+  <arg name="namespace" default="rover"/>
+  <param name="/use_sim_time" value="true"/>
+
+    <group ns="$(arg namespace)">
+        <!-- robot_description is used by the nodes that publish to joint_states. -->
+        <param name="robot_description"
+               command="$(find xacro)/xacro $(find rover_desc_pkg)/urdf/rover_robot.xacro"/>
+
+        <!-- Read joint positions from joint_states, then publish the rover's state to tf. -->
+        <!--    <node name="rover_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">-->
+        <!--      <param name="publish_frequency" value="30.0"/>-->
+        <!--    </node>-->
+    </group>
+</launch>

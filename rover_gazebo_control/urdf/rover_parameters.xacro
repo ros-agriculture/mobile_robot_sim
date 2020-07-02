@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="r_link_00_name" value="chassis_footprint"/>
+  <xacro:property name="r_link_01_name" value="chassis_link"/>
+
+  <!-- Chassis dimensions -->
+  <xacro:property name="chassis_length" value="1.016"/>
+  <xacro:property name="chassis_width" value="0.6096"/>
+  <xacro:property name="chassis_height" value="0.4445"/>
+  <xacro:property name="chassis_mass" value="1.0"/> <!-- in Kg -->
+
+  <xacro:property name="world_x_origin_to_chassis_x_origin" value="0.0"/>
+  <xacro:property name="world_y_origin_to_chassis_y_origin" value="0.0"/>
+  <xacro:property name="world_z_origin_to_chassis_z_origin" value="0.0"/>
+
+  <!-- Inverter dimensions -->
+  <xacro:property name="inverter_length" value="0.400"/>
+  <xacro:property name="inverter_width" value="0.2353"/>
+  <xacro:property name="inverter_height" value="0.400"/>
+  <xacro:property name="inverter_mass" value="5"/> <!-- in Kg -->
+
+  <!-- Steer dimensions -->
+  <xacro:property name="steer_length" value="0.217"/>
+  <xacro:property name="steer_width" value="0.234"/>
+  <xacro:property name="steer_height" value="0.618"/>
+  <xacro:property name="steer_mass" value="1.0"/> <!-- in Kg -->
+
+  <xacro:property name="world_x_origin_to_steer_x_origin" value="0.3715"/> <!-- Distance from world origin to mount point in X direction -->
+  <xacro:property name="world_y_origin_to_steer_y_origin" value="0.3148"/> <!-- Distance from world origin to mount point in Y direction -->
+  <xacro:property name="world_z_origin_to_steer_z_origin" value="0.0"/> <!-- Distance from world origin to mount point in Z direction -->
+
+  <xacro:property name="chassis_z_origin_to_steer_z_origin" value="0.1305"/>
+
+  <!-- Wheels -->
+  <xacro:property name="wheel_radius" value="0.178"/>
+  <xacro:property name="wheel_height" value="0.114"/>
+  <xacro:property name="wheel_mass" value="1.0"/> <!-- in Kg -->
+
+  <xacro:property name="world_x_origin_to_wheel_x_origin" value="0.4025"/>
+  <xacro:property name="world_y_origin_to_wheel_y_origin" value="0.3153"/>
+  <xacro:property name="world_z_origin_to_wheel_z_origin" value="0.0"/>
+
+  <xacro:property name="steer_x_origin_to_wheel_x_origin" value="0.0317"/>
+  <xacro:property name="steer_y_origin_to_wheel_y_origin" value="0.0"/>
+  <xacro:property name="steer_z_origin_to_wheel_z_origin" value="0.4620"/>
+</robot>

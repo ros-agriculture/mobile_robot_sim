@@ -48,8 +48,8 @@
     <remap from="cmd_vel" to="cmd_vel"/>
     </node>
       <!--The below is the old SMACH based code, leaving commented code here temporarily-->
-    <!-- <node pkg="lawn_tractor_navigation" name="mbf_state_machine" type="mbf_state_machine.py" respawn="false" output="screen"/> -->
-    <node pkg="lawn_tractor_navigation" name="mbf_behavior_tree" type="movebaseflex_bt_node" respawn="false" output="screen" /> 
+    <!-- <node pkg="rover_gazebo_control" name="mbf_state_machine" type="mbf_state_machine.py" respawn="false" output="screen"/> -->
+    <node pkg="rover_gazebo_control" name="mbf_behavior_tree" type="movebaseflex_bt_node" respawn="false" output="screen" /> 
 
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_chassis_link" args="0.0 0.0 0.0 0 0 0.0 /chassis_link /base_link 100" />
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find rover_gazebo_control)/rover_config.rviz"/>

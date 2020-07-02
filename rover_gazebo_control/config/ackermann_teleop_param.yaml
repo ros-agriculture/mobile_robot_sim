@@ -1,0 +1,6 @@
+#USAGE parameter: value # comment (note that you cannot use tabs, use spaces instead)
+
+# Input scale
+steer_step: 0.1  # amount of steering angle change for left/right input (rad)
+accel_step: 10    # amount of acceleration for forward/backward input (rad/s, for rear wheel spin velocity)
+

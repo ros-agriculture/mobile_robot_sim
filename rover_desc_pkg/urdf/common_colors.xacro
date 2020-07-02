@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <!--
+
+    All RAL colours converted using http://www.visual-graphics.de/en/customer-care/ral-colours
+
+  -->
+
+
+
+  <!-- Default colors for Rover & Arm -->
+
+  <!-- Red Color -->
+
+  <xacro:property name="col_red" value="${204/255} ${0.0/255} ${0.0/255} ${255/255}"/>
+
+
+
+  <!-- Green Color -->
+
+  <xacro:property name="col_green" value="${0.0/255} ${204/255} ${0.0/255} ${255/255}"/>
+
+
+
+  <!-- Blue Color -->
+
+  <xacro:property name="col_blue" value="${0.0/255} ${0.0/255} ${204/255} ${255/255}"/>
+
+
+
+  <!-- Black Color -->
+
+  <xacro:property name="col_black" value="${0.0/255} ${0.0/255} ${0.0/255} ${255/255}"/>
+
+
+
+  <!-- White Color -->
+
+  <xacro:property name="col_white" value="${255/255} ${255/255} ${255/255} ${255/255}"/>
+
+
+
+  <!-- Gray Color -->
+
+  <xacro:property name="col_gray" value="${178.5/255} ${178.5/255} ${178.5/255} ${255/255}"/>
+
+
+
+  <!-- Dark Gray Color -->
+
+  <xacro:property name="col_darkgray" value="${47/255} ${50/255} ${52/255} ${255/255}"/>
+
+
+
+  <!-- Yellow Color -->
+
+  <xacro:property name="col_yellow" value="${204/255} ${204/255} ${204/255} ${255/255}"/>
+
+
+
+  <!-- Clay Brown Color -->
+
+  <xacro:property name="col_clay_brown" value="${126/255} ${75/255} ${38/255} ${255/255}"/>
+
+</robot>

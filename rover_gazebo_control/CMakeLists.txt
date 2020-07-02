@@ -1,9 +1,11 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5.1)
 project(rover_gazebo_control)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
-
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -21,8 +23,15 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+set(ROS_DEPENDENCIES
+    roscpp std_msgs geometry_msgs tf
+    behaviortree_cpp_v3
+    actionlib_msgs
+    actionlib
+    message_generation)
 
-
+find_package(catkin REQUIRED COMPONENTS ${ROS_DEPENDENCIES} )
+find_package(GTest)
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
@@ -109,10 +118,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-        #  INCLUDE_DIRS include
-        #  LIBRARIES rover_gazebo_control
-        #  CATKIN_DEPENDS ackermann_msgs rospy rover_desc_pkg std_msgs
-        #  DEPENDS system_lib
+  INCLUDE_DIRS include
+  LIBRARIES
+  CATKIN_DEPENDS actionlib actionlib_msgs behaviortree_cpp_v3 roscpp std_msgs mbf_msgs tf
 )
 
 ###########
@@ -123,7 +131,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
         include ${catkin_INCLUDE_DIRS}
-        # include
+        include
         ${catkin_INCLUDE_DIRS}
 )
 
@@ -138,9 +146,12 @@ include_directories(
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
+## With catkin_make all packages are built within a single CMake contexts
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/rover_gazebo_control_node.cpp)
+add_executable(movebaseflex_bt_node src/mbf_behaviorTree.cpp)
+add_dependencies(movebaseflex_bt_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(movebaseflex_bt_node  ${catkin_LIBRARIES} )
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -213,41 +224,11 @@ include_directories(
 # catkin_add_nosetests(test)
 
 
-add_executable(gps_waypoint
-        src/gps_waypoint.cpp
-        )
-add_dependencies(gps_waypoint ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(gps_waypoint
-        ${catkin_LIBRARIES}
-        )
-add_executable(gps_waypoint_continuos
-        src/gps_waypoint_continuos.cpp
-        )
-add_dependencies(gps_waypoint_continuos ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(gps_waypoint_continuos
-        ${catkin_LIBRARIES}
-        )
-
-add_executable(gps_p2p_continous1
-        src/gps_p2p_continous1.cpp
-        )
-add_dependencies(gps_p2p_continous1 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(gps_p2p_continous1
-        ${catkin_LIBRARIES}
-        )
-
-add_executable(gps_p2p_continous2
-        src/gps_p2p_continous2.cpp
-        )
-add_dependencies(gps_p2p_continous2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(gps_p2p_continous2
-        ${catkin_LIBRARIES}
-        )
 
 add_executable(control_switcher
         src/control_switcher.cpp
         )
 add_dependencies(control_switcher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(control_switcher
+target_link_libraries(control_switcher 
         ${catkin_LIBRARIES}
         )
