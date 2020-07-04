@@ -3,6 +3,7 @@
     <!-- -->
     <param name="/use_sim_time" value="true"/>
     <arg name="map_file" default="$(find rover_gazebo_control)/maps/mymap_empty.yaml"/>
+    <rosparam param="datum">[49.900000, 8.900000, 0.0]</rosparam>
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
 
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
@@ -17,7 +18,6 @@
     <rosparam command="load" file="$(find rover_gazebo_control)/config/navsat.yaml"/>
     <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" clear_params="true"
           output="screen">
-         <rosparam param="datum">[49.900000, 8.900000, 0.0]</rosparam>
         <remap from="odometry/filtered" to="odometry/filtered_map"/>
         <remap from="gps/fix" to="/gps"/>
         <remap from="imu/data" to="/imu_data"/>
