@@ -1,1 +1,1 @@
-docker build . -t mobilerobotsim:v0.0
+docker build . -t mobile_robot_sim:v0.0

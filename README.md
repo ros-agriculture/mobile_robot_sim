@@ -5,7 +5,7 @@ Thanks to the original developers of this project [@sravi2007](https://github.co
 
 ## Running
 ### Running from Docker
-1. `docker build . -t roverros:v0.0`
+1. `docker build . -t mobile_robot_sim:v0.0`
 2. `./docker_start.sh`
 
 ### Running on Bare Metal
